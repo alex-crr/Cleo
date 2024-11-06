@@ -14,7 +14,7 @@ class Assistant:
         
     def prompt(self, text: str) -> str:
         self.memory.append({'role': 'user', 'content': text})
-        response = ollama.chat(model=self.model, messages=self.memory, tools= [tools.run_query_desc])
+        response = ollama.chat( model=self.model, messages=self.memory, tools= [tool[0] for tool in self.tool_list])
         self.memory.append({'role': 'assistant', 'content': response['message']['content']})
         
         # Check if the model decided to use the provided function //debugging purposes
@@ -26,17 +26,22 @@ class Assistant:
         if response['message'].get('tool_calls'):
             available_functions = {}
             for tool in self.tool_list:
+                print(f'functions accessible: {tool[0]['function']['name']}')
                 available_functions.update({tool[0]['function']['name']: tool[1]})
+                
             for tool in response['message']['tool_calls']:
+                print(available_functions[tool['function']['name']])
                 function_to_call: Callable = available_functions[tool['function']['name']]
-                if function_to_call.__name__ == 'run_query': #find a way for this to not be ifs but rather modular statement
-                    function_response: str = function_to_call(tool['function']['arguments']['query'])
-                    self.memory.append(
-                        {
-                        'role': 'tool',
-                        'content': function_response,
-                        }
-                    )
+                #if function_to_call.__name__ == 'run_query': #find a way for this to not be ifs but rather modular statement
+                '''function_response: str = function_to_call(tool['function']['arguments']['query'])'''
+                function_args = tool['function']['arguments']
+                function_response: str = function_to_call(**function_args)
+                self.memory.append(
+                    {
+                    'role': 'tool',
+                    'content': function_response,
+                    }
+                )
                     
         final_response: Dict[str, Any] = ollama.chat(model=self.model, messages=self.memory)
         return final_response['message']['content']
