@@ -2,6 +2,9 @@
  Centralized Learning and Executive Operator- LLM integrated second brain
  ![image](https://github.com/user-attachments/assets/64c33b7f-a2ca-4245-9222-de720e1725a8)
 
+The idea behind this system is to replicate an AI assistant similar to Jarvis.
+I have been using second brain systems like notion and wanted to see if it was possible to get a system that would allow it to interact with a database for it's context, theoretically saving a bit on complexity.
+The project hasnt been completely defined/refined yet but the more I buiild upon it, the clearer it becomes.
  
 ## files walkthrough
 ### LLM personalization
