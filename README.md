@@ -1,5 +1,7 @@
 # Cleo
  Centralized Learning and Executive Operator- LLM integrated second brain
+ ![image](https://github.com/user-attachments/assets/64c33b7f-a2ca-4245-9222-de720e1725a8)
+
  
 ## files walkthrough
 ### LLM personalization
