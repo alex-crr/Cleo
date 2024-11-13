@@ -9,5 +9,5 @@ with open('mymodel.modelfile', "w") as f:
 with open('Jarvis.modelfile', 'r', encoding="utf-8") as f:
     model_file= f.read()
     
-response = ollama.create(model='Jarvis', modelfile = model_file)
+response = ollama.create(model='Jarvis-falcon', modelfile = model_file)
 print(response)

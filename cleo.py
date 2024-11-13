@@ -10,7 +10,7 @@ class Assistant:
         self.memory: List[Dict[str, Any]] = []
         self.active: bool = True
         self.creation_date: str = time.strftime("%Y-%m-%d %H-%M-%S")
-        self.tool_list = tool_list
+        self.tool_list = [(self.save_memory_desc , self.save_memory), (self.off_desc, self.off)] + tool_list
         
     def prompt(self, text: str) -> str:
         self.memory.append({'role': 'user', 'content': text})
@@ -44,14 +44,50 @@ class Assistant:
                 )
                     
         final_response: Dict[str, Any] = ollama.chat(model=self.model, messages=self.memory)
+        self.memory.append({'role': 'assistant', 'content': final_response['message']['content']})
         return final_response['message']['content']
         
-    def save_memory(self) -> None:
-        log_filename = f"assistant_memory_{self.model}_{self.creation_date}.log"
+        
+    save_memory_desc = {
+            'type': 'function',
+            'function': {
+            'name': 'save_memory',
+            'description': 'save the chat history',
+            'parameters': {
+                'type': 'object',
+                'properties': {
+                },
+                'required': [],
+            },
+            },
+        }
+    def save_memory(self) -> str:
+        log_filename = f"Logs/assistant_memory_{self.model}_{self.creation_date}.log"
         with open(log_filename, 'w') as log_file:
             for entry in self.memory:
                 log_file.write(f"{entry['role']}: {entry['content']}\n")
-        raise NotImplementedError("This method is not implemented yet")
+        return f"Memory saved to {log_filename}"
     
+    off_desc = {
+        'type': 'function',
+        'function': {
+          'name': 'off',
+          'description': 'Turn off the assistant upon being told to sleep or be turned off',
+          'parameters': {
+            'type': 'object',
+            'properties': {
+              'save': {
+                'type': 'bool',
+                'description': 'Wether ot not the chat history should be saved',
+              },
+            },
+            'required': [],
+          },
+        },
+      }
     
+    def off(self, save: bool = True) -> str:
+        self.active = False
+        if save: self.save_memory()
+        return "Assistant is now off"
     
