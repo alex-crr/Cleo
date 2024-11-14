@@ -34,7 +34,7 @@ if __name__ == '__main__':
     )
 
     # Path to the HTML file inside the 'site' folder
-    html_file_path = os.path.join(os.path.dirname(__file__), 'site', 'index.html')
+    html_file_path = os.path.join(os.path.dirname(__file__), 'GUI', 'index.html')
 
     # Use 'file://' URL scheme to load the HTML file
     url = f'file://{html_file_path}'
