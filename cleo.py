@@ -26,7 +26,7 @@ class Assistant:
         if response['message'].get('tool_calls'):
             available_functions = {}
             for tool in self.tool_list:
-                print(f'functions accessible: {tool[0]['function']['name']}')
+                print('functions accessible:' + {tool[0]['function']['name']})
                 available_functions.update({tool[0]['function']['name']: tool[1]})
                 
             for tool in response['message']['tool_calls']:

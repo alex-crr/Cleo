@@ -1,1 +1,3 @@
 ollama
+webview
+mysql-connector-python
