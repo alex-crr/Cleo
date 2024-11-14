@@ -1,8 +1,8 @@
 import tools
 import ollama   
-import main
 from typing import List, Dict, Any, Callable, Optional
 import time
+import os
 
 class Assistant:
     def __init__(self, model: str, tool_list = None):
@@ -19,18 +19,18 @@ class Assistant:
         
         # Check if the model decided to use the provided function //debugging purposes
         if not response['message'].get('tool_calls'):
-            print("The model didn't use the function. Its response was:")
+            #print("The model didn't use the function. Its response was:")
             return response['message']['content']
         
         # Process function calls made by the model
         if response['message'].get('tool_calls'):
             available_functions = {}
             for tool in self.tool_list:
-                print('functions accessible:' + {tool[0]['function']['name']})
+                #print(f'functions accessible: {tool[0]['function']['name']}')
                 available_functions.update({tool[0]['function']['name']: tool[1]})
                 
             for tool in response['message']['tool_calls']:
-                print(available_functions[tool['function']['name']])
+                #print(available_functions[tool['function']['name']])
                 function_to_call: Callable = available_functions[tool['function']['name']]
                 #if function_to_call.__name__ == 'run_query': #find a way for this to not be ifs but rather modular statement
                 '''function_response: str = function_to_call(tool['function']['arguments']['query'])'''
@@ -67,6 +67,9 @@ class Assistant:
             for entry in self.memory:
                 log_file.write(f"{entry['role']}: {entry['content']}\n")
         return f"Memory saved to {log_filename}"
+    # Ensure the Logs directory exists
+    if not os.path.exists('Logs'):
+        os.makedirs('Logs')
     
     off_desc = {
         'type': 'function',

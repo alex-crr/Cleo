@@ -56,14 +56,14 @@ def run_query(query):
         myresult = mycursor.fetchall()
 
         # Print the query and result
-        print("Query:", query)
-        print("Result:", myresult)
-        print("Result as string:", str(myresult))
+        #print("Query:", query)
+        #print("Result:", myresult)
+        #print("Result as string:", str(myresult))
 
         # Commit changes if the query modifies the database
         if query.strip().upper().startswith(('INSERT', 'UPDATE', 'DELETE')):
             mydb.commit()
-            print("Changes committed to the database.")
+            #print("Changes committed to the database.")
 
         return str(myresult)
 
@@ -76,7 +76,7 @@ def run_query(query):
         if mydb.is_connected():
             mycursor.close()
             mydb.close()
-            print("Database connection closed.")
+            #print("Database connection closed.")
 
 
 #run_query("SELECT     TABLE_NAME AS 'Table',    COLUMN_NAME AS 'Column',    DATA_TYPE AS 'Data Type',    IS_NULLABLE AS 'Nullable',    COLUMN_DEFAULT AS 'Default',    COLUMN_KEY AS 'Key',    EXTRA AS 'Extra' FROM     INFORMATION_SCHEMA.COLUMNS WHERE    TABLE_SCHEMA = 'projectmanagement'ORDER BY     TABLE_NAME, ORDINAL_POSITION;")
