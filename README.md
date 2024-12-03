@@ -1,5 +1,7 @@
 # Cleo
  Centralized Learning and Executive Operator- LLM integrated second brain
+
+ 03/12/2024: stop working on gui and focus on adding more functionality, including voice control and web researcher 
  ![image](https://github.com/user-attachments/assets/64c33b7f-a2ca-4245-9222-de720e1725a8)
 
 The idea behind this system is to replicate an AI assistant similar to Jarvis.
